@@ -1,0 +1,5 @@
+.gwt/
+deploy/
+gwt-unitCache/
+war/searchtest/
+classes/
