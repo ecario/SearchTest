@@ -1,0 +1,51 @@
+<project name="SearchTest" default="deploy" basedir=".">
+
+	<!-- set global properties for this build -->
+	<property environment="env"/>
+	<property name="tomcat" value="${env.CATALINA_HOME}"/>
+  	<property name="src" location="./war"/>
+  	<property name="build" location="./deploy"/>
+  	<property name="tomcat-webapps" location="${tomcat}/webapps"/>
+
+	<target name="makewar">
+
+		<delete dir="${build}" />
+		
+		<mkdir dir="${build}" />
+		
+		<!-- get loose files -->
+		<copy todir="${build}" >
+			<fileset dir="${src}" >
+				<exclude name="**/WEB-INF/**" />
+				<exclude name="**/searchtest/**" />
+			</fileset>
+		</copy>
+
+		<!-- get what's in search test -->
+		<copy todir="${build}" >
+			<fileset dir="${src}" >
+				<include name="**/searchtest/**" />
+				<exclude name="**/WEB-INF/**" />
+			</fileset>
+		</copy>
+		
+		<!-- get WEB-INF -->
+		<copy todir="${build}" >
+			<fileset dir="${src}">
+				<include name="WEB-INF/**" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${build}/searchtest.war" basedir="${build}"/>
+		
+	</target>
+
+	
+  	<target name="deploy" depends="makewar">
+  		
+  		<copy file="${build}/searchtest.war" todir="${tomcat-webapps}"/>
+  		
+  	</target>
+	
+</project>
+	
